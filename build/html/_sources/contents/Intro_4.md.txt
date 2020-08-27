@@ -1,0 +1,21 @@
+# Introduction
+
+Motivation and stuff 
+
+## List
+
+This is a sample list
+* List item 1
+* List item 2
+
+## Sample java code
+```Java
+something herere
+public int well(){
+    Time Zero = new Time(As.Clone());
+    
+    return Zero
+}
+
+```
+

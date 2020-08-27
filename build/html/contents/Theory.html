@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Theory and equation for response time analysis in different environment &#8212; GSOC2020 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Introduction" href="Intro.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="theory-and-equation-for-response-time-analysis-in-different-environment">
+<h1>Theory and equation for response time analysis in different environment<a class="headerlink" href="#theory-and-equation-for-response-time-analysis-in-different-environment" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Table of Notation for <strong>Basic RTA</strong></p></li>
+</ul>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 63%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Task i</p></td>
+<td><p><span class="math notranslate nohighlight">\(\tau_i\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>WC Response time</p></td>
+<td><p><span class="math notranslate nohighlight">\(R_i^+\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>WC Execution time</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_i^+\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Period</p></td>
+<td><p><span class="math notranslate nohighlight">\(T_i\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Priority</p></td>
+<td><p><span class="math notranslate nohighlight">\(P_i\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="fully-preemptive-environment">
+<h2>Fully preemptive environment<a class="headerlink" href="#fully-preemptive-environment" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Response time analysis using recurrence relation</p></li>
+</ul>
+<p><em>Equation 1:</em>
+<span class="math notranslate nohighlight">\(R_i^+ = C_i^+ + \sum_{j:P_j \geq P_i} \left\lceil \frac {R_{i-1}^+} {T_j} \right\rceil C_j^+\)</span>
+|</p>
+<p><strong>Numerical example</strong>: Assume a task (<span class="math notranslate nohighlight">\(C_i^+\)</span>, <span class="math notranslate nohighlight">\(T_i\)</span>) set  {(1,3), (1,5), (1,6), (2,10)}</p>
+<p><span class="math notranslate nohighlight">\(R_1^0\)</span> = <span class="math notranslate nohighlight">\(R_1^1\)</span> = <span class="math notranslate nohighlight">\(C1\)</span> = 1 (task with highest priority, hence response time = execution time)</p>
+<p><span class="math notranslate nohighlight">\(R_2^0\)</span> = <span class="math notranslate nohighlight">\(C_2\)</span> + <span class="math notranslate nohighlight">\(C1\)</span> = 2</p>
+<p><span class="math notranslate nohighlight">\(R_2^1\)</span> = <span class="math notranslate nohighlight">\(C_2\)</span> + <span class="math notranslate nohighlight">\(\left\lceil \frac {R_2^0} {T_1} \right\rceil C_1^+\)</span> = <span class="math notranslate nohighlight">\(1 + \left\lceil \frac {2} {3} \right\rceil 1 = 2\)</span></p>
+<p><span class="math notranslate nohighlight">\(R_2^1\)</span> = <span class="math notranslate nohighlight">\(R_2^0\)</span> = 2. No further exploration can be done here, <span class="math notranslate nohighlight">\(\tau_2\)</span> response time <span class="math notranslate nohighlight">\(R_2\)</span> = 2. This mean, we stop when previous iteration value equal the current iteration value, this value will be the response time of task.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ul class="simple">
+<li><p>Response time analysis using level-i busy window</p></li>
+</ul>
+<p>In preemptive environment, beside recurrence relation method, there is another way to calculate task response time (RT) by calculate response time of several instance of
+task during its busy period, and pick the longest one among them.</p>
+<p><em>Equation 2:</em> Level-i active period (busy window)</p>
+<p><span class="math notranslate nohighlight">\(L_i =  \sum_{j:P_j \geq P_i} \left\lceil \frac {L_{i}} {T_j} \right\rceil C_j\)</span></p>
+<p><em>Equation 3:</em> The number of <span class="math notranslate nohighlight">\(\tau_2\)</span>’s instances to check are:</p>
+<p><span class="math notranslate nohighlight">\(K_i = \left\lceil \frac {L_i} {T_i} \right\rceil\)</span></p>
+<p><em>Equation 4:</em> The finishing time of <em>k</em>-instance</p>
+<p><span class="math notranslate nohighlight">\(f_i^k = \sum_{j:P_j &gt; P_i} \lceil \frac {f_i^k} {T_j} \rceil C_j + (k - 1) C_i\)</span></p>
+<p><em>Equation 5:</em> From finishing time, we can calculate response time simply since: Response time = finishing time - arrival time. Where arrival time = k-instance’s period.</p>
+<p><span class="math notranslate nohighlight">\(R_i^k = f_i^k - (k-1)T_i\)</span></p>
+<p>Response time of <span class="math notranslate nohighlight">\(\tau_i\)</span> is the maximum among all k-instances.</p>
+<p>For numerical example, I recommend you check “tutorial on real-time scheduling” by Emmanual Grolleau, his papered is where I check and back test the code flow.
+First 4 pages is enough to understand how to use level-i busy window.</p>
+</div>
+<div class="section" id="non-preemptive-environment">
+<h2>Non-preemptive environment<a class="headerlink" href="#non-preemptive-environment" title="Permalink to this headline">¶</a></h2>
+<p>For non-preemptive environment, recurrence relation method is not doable, only busy window is usable as far as I know.</p>
+<p>We reuse equation 2, 3 to get total number of k instance, only different is we will calculate arrival time, then find finishing time by arrival time + execution time, and use equation 5 for response time:</p>
+<p><em>Equation 6</em>: release time <span class="math notranslate nohighlight">\(s_i^k\)</span> of <span class="math notranslate nohighlight">\(\tau_i^k\)</span></p>
+<p><span class="math notranslate nohighlight">\(s_i^k =  \sum_{j:P_j &gt; P_i} (\lfloor \frac {s_i^k} {T_j}\rfloor + 1) C_j + (k - 1) C_i\)</span></p>
+<p>Then simply finishing time <span class="math notranslate nohighlight">\(f_i^k = s_i^k + C_i\)</span> since it is non-preemptive, response time can be calculate again by equation 5.</p>
+</div>
+<div class="section" id="limitted-preemptive-or-cooperative-environment">
+<h2>Limitted preemptive (or cooperative) environment<a class="headerlink" href="#limitted-preemptive-or-cooperative-environment" title="Permalink to this headline">¶</a></h2>
+<p>Window technique again proved to be useful in this scenario, this time we need to introduce blocking time, which is the largest execution time of lower priority runnable (since cooperative is runnable bound).</p>
+<p>Blocking time</p>
+<p><span class="math notranslate nohighlight">\(B_i = max_{j:P_j &lt; P_i} (C_j,r)\)</span></p>
+<p>Reuse equation 2,3 again, but include blocking time <span class="math notranslate nohighlight">\(B_i\)</span> into equation 2 to find out proper busy period</p>
+<p><span class="math notranslate nohighlight">\(L_i = B_i + \sum_{j:P_j \geq P_i} \left\lceil \frac {L_{i}} {T_j} \right\rceil C_j\)</span></p>
+<p>Task <span class="math notranslate nohighlight">\(\tau_i\)</span> finished time can be derived from equation 4, with a touch of blocking time</p>
+<p><span class="math notranslate nohighlight">\(f_i^k = B_i + \sum_{j:P_j &gt; P_i} \lceil \frac {f_i^k} {T_j} \rceil C_j + (k - 1) C_i\)</span></p>
+<p>And here we can apply equation 5 for response time, pretty simple right?</p>
+<p><strong>Notice here:</strong> This is true iff we assume all higher priority task can preempt lower priority task as soon as its arrival time come.
+If you want to introduce some preemption threshold <span class="math notranslate nohighlight">\(\theta_i\)</span>, follow the below equations.</p>
+<p><em>Equation 7:</em> get task’s release time:</p>
+<p><span class="math notranslate nohighlight">\(s_i^k = B_i + \sum_{j:P_j &gt; P_i} (\lfloor \frac {s_i^k} {T_j}\rfloor + 1) C_j + (k - 1) C_i\)</span></p>
+<p><em>Equation 8</em>: get task’s finshing time:</p>
+<p><span class="math notranslate nohighlight">\(f_i^k = s_i^k + \sum_{j:P_j &gt; \theta_i} (\lceil \frac {f_i^k} {T_j} \rceil - (\lfloor \frac {s_i^k} {T_j} \rfloor + 1)) C_j\)</span></p>
+<p>And then applied the same equation 5 for response time.</p>
+<p>developer note: sorry I didn’t include any numerical example in these case, it’s rather lengthy to do so, but if you understand how level-i work, these equation wouldn’t be difficult at all</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">GSOC2020</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Intro.html">Into</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Theory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fully-preemptive-environment">Fully preemptive environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#non-preemptive-environment">Non-preemptive environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#limitted-preemptive-or-cooperative-environment">Limitted preemptive (or cooperative) environment</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Intro.html" title="previous chapter">Introduction</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, The Bao Bui.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/contents/Theory.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

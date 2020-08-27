@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GSOC 2020 - Non-Preemptive / Limited preemptive in Response Time Analysis &#8212; GSOC2020 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Function introduction" href="contents/Intro.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="gsoc-2020-non-preemptive-limited-preemptive-in-response-time-analysis">
+<h1>GSOC 2020 - Non-Preemptive / Limited preemptive in Response Time Analysis<a class="headerlink" href="#gsoc-2020-non-preemptive-limited-preemptive-in-response-time-analysis" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
+<p>I have been working on RTA related field for the past 1.5 years during my master program, and this time GSoC provides me an opportunity to extend that knowledge into more detail and complicated with a great mentor/supervisor.
+Prior to this GSoC, I only know 1 method to calculate response time of a task in unicore using recurrence relation.</p>
+<p>However, that method is even older than me, and not very optimal in my opinion. I want to find a faster, more optimal way to calculate response time where all task would meet it deadline by configure its preemptive type and its environment.
+Furthermore, APP4MC with Amalthea model already have those preemption properties needed for the implementation, this reduced greatly the orientation time needed to get familiar with new platform/software since I have already used it since 2019</p>
+<p>This led me to my decision choosing this topic: <strong>Non-Preemptive / Limited preemptive in Response Time Analysis</strong></p>
+<p>With all the software related material sorted out, all I needed to do left is to find how to calculate response time in 2 different environments: non-preemptive, and limited preemptive.</p>
+</div>
+<div class="section" id="content">
+<h2>Content<a class="headerlink" href="#content" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contents/Intro.html">Implementation functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/Theory.html">Theory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contents/Theory.html#fully-preemptive-environment">Fully preemptive environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/Theory.html#non-preemptive-environment">Non-preemptive environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/Theory.html#limitted-preemptive-or-cooperative-environment">Limitted preemptive (or cooperative) environment</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contents/References.html">References</a></li>
+</ul>
+</div>
+<p>If you have any question, contact me via : <a class="reference external" href="mailto:the&#46;bui003&#37;&#52;&#48;stud&#46;fh-dortmund&#46;de">the<span>&#46;</span>bui003<span>&#64;</span>stud<span>&#46;</span>fh-dortmund<span>&#46;</span>de</a></p>
+<p>Happy coding</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">GSOC2020</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contents/Intro.html">Implementation functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/Theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/References.html">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="contents/Intro.html" title="next chapter">Function introduction</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, The Bao Bui.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

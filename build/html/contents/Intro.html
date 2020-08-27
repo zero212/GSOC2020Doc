@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Function introduction &#8212; GSOC2020 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Theory and equation for response time analysis in different environment" href="Theory.html" />
+    <link rel="prev" title="Function introduction" href="../Introduction.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="function-introduction">
+<h1>Function introduction<a class="headerlink" href="#function-introduction" title="Permalink to this headline">¶</a></h1>
+<p>Function inside my class <code class="docutils literal notranslate"><span class="pre">NPandPRTA</span></code> and its usage:</p>
+<div class="highlight-Java notranslate"><div class="highlight"><pre><span></span><span class="n">setSchedubilityCheck</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">schedubilityCheck</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>set to false will return RTA result without checking its schedubility (only check core ultilization). This is used to avoid return 0 for task’s RT that exceed its period/deadline.
+Mainly use for test class. Recommend to set it to true when partitioning</p>
+<div class="highlight-Java notranslate"><div class="highlight"><pre><span></span><span class="n">getRTAinMixedPreemptiveEnvironment</span><span class="o">(</span><span class="n">Task</span> <span class="n">thisTask</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">ia</span><span class="o">,</span> <span class="n">TimeType</span> <span class="n">executionCase</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">pTypeArray</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">usePtypeArray</span><span class="o">):</span>
+</pre></div>
+</div>
+<p>calculate task’s response time in different environments: fully preemptive, non-preemptive, deffered preemptive, and a mixed of all (core have tasks with different preemptive type).
+<code class="docutils literal notranslate"><span class="pre">pTypeArray</span></code> is preemptive type array for task, used when developer want to do shuffle preemptive type via code rather than edit the model.
+-Array same length with <code class="docutils literal notranslate"><span class="pre">int[]ia</span></code> array. index value meaning : 0 = preemp, 1 = non-preemptive, 2 = cooperative type
+-Set to null when use model’s configurated preemtive type
+<code class="docutils literal notranslate"><span class="pre">boolean</span> <span class="pre">usePtypeArray</span></code> set to true if use pTypeArray
+Mechanism within this class</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">Step</span> <span class="mi">1</span><span class="p">:</span> <span class="n">determine</span> <span class="n">what</span> <span class="n">preemptive</span> <span class="nb">type</span> <span class="n">thisTask</span> <span class="ow">is</span>
+  <span class="n">Step</span> <span class="mi">2</span><span class="p">:</span> <span class="n">find</span> <span class="n">out</span> <span class="n">whether</span> <span class="n">there</span> <span class="ow">is</span> <span class="n">blocking</span> <span class="kn">from</span> <span class="nn">lp</span> <span class="n">task</span> <span class="p">(</span><span class="n">cuz</span> <span class="n">np</span><span class="o">/</span><span class="n">c</span> <span class="nb">type</span> <span class="n">task</span><span class="p">)</span>
+  <span class="n">Step</span> <span class="mi">3</span><span class="p">:</span> <span class="n">choose</span> <span class="n">the</span> <span class="n">method</span> <span class="n">by</span> <span class="n">these</span> <span class="n">criteria</span>
+		   <span class="o">-</span> <span class="k">if</span> <span class="p">(</span><span class="n">taskType</span> <span class="o">==</span> <span class="n">preemp</span><span class="o">/</span><span class="n">cooperative</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">blockingTime</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> 
+		  	    <span class="o">=&gt;</span> <span class="n">use</span> <span class="n">normal</span> <span class="n">level</span><span class="o">-</span><span class="n">i</span> <span class="p">(</span><span class="n">getResponseTimeViaLvI</span><span class="p">)</span>                              <span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+		   <span class="o">-</span> <span class="k">if</span> <span class="p">(</span><span class="n">taskType</span> <span class="o">==</span> <span class="n">preemp</span><span class="o">/</span><span class="n">cooperative</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">blockingTime</span> <span class="o">!=</span><span class="mi">0</span><span class="p">)</span>
+		       <span class="o">=&gt;</span> <span class="n">use</span> <span class="n">level</span><span class="o">-</span><span class="n">i</span> <span class="k">with</span> <span class="n">preemptive</span> <span class="n">mixed</span> <span class="n">environment</span> <span class="p">(</span><span class="n">getPreempCoopMixedTaskRTA</span><span class="p">)</span>   <span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+		      	<span class="n">finishing</span> <span class="n">time</span> <span class="n">here</span> <span class="ow">is</span> <span class="n">different</span> <span class="n">than</span> <span class="n">the</span> <span class="n">above</span>
+		        <span class="n">finishingTime</span> <span class="o">=</span> <span class="n">startTime</span> <span class="o">+</span> <span class="n">execution</span> <span class="n">time</span> <span class="o">+</span> <span class="n">preemption</span> <span class="n">time</span>
+		     	<span class="n">preemption</span> <span class="n">time</span> <span class="o">=</span> <span class="n">time</span> <span class="n">thisTask</span> <span class="n">get</span> <span class="n">preempted</span> <span class="n">by</span> <span class="n">other</span> <span class="n">higher</span> <span class="n">priority</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">same</span> <span class="n">core</span><span class="o">.</span>
+		   <span class="o">-</span> <span class="k">if</span> <span class="p">(</span><span class="n">taskType</span> <span class="o">==</span> <span class="n">non</span><span class="o">-</span><span class="n">preemp</span><span class="p">))</span>  
+		       <span class="o">=&gt;</span> <span class="n">use</span> <span class="n">level</span><span class="o">-</span><span class="n">i</span> <span class="k">with</span> <span class="n">blocking</span> <span class="p">(</span><span class="n">getNonPreemptaskRA</span><span class="p">)</span>                          <span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+		       <span class="n">blockingTime</span> <span class="n">doesn</span><span class="s1">&#39;t matter here since even if there is no blocking time, the equation still hold true</span>
+		       <span class="n">important</span> <span class="n">part</span> <span class="ow">is</span> <span class="n">taskType</span> <span class="ow">is</span> <span class="n">non</span><span class="o">-</span><span class="n">preemp</span> <span class="n">which</span> <span class="n">make</span> <span class="n">finishingTime</span> <span class="o">=</span> <span class="n">startTime</span> <span class="o">+</span> <span class="n">execution</span> <span class="n">time</span><span class="p">;</span>
+	       
+</pre></div>
+</div>
+<div class="highlight-Java notranslate"><div class="highlight"><pre><span></span><span class="n">getResponseTimeViaRecurrenceRelation</span><span class="o">(</span><span class="n">Task</span> <span class="n">thisTask</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">ia</span><span class="o">,</span> <span class="kd">final</span> <span class="n">TimeType</span> <span class="n">executionCase</span><span class="o">):</span> 
+</pre></div>
+</div>
+<p>calculate response time of task using classic recurrence relation method.</p>
+<div class="highlight-Java notranslate"><div class="highlight"><pre><span></span><span class="n">getResponseTimeViaLvI</span><span class="o">(</span><span class="n">Task</span> <span class="n">thisTask</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">ia</span><span class="o">,</span> <span class="n">TimeType</span> <span class="n">executionCase</span><span class="o">):</span> 
+</pre></div>
+</div>
+<p>calculate response time of task using level-i method (window technique).</p>
+<div class="highlight-Java notranslate"><div class="highlight"><pre><span></span><span class="n">getNonPreemptaskRTA</span><span class="o">(</span><span class="n">Task</span> <span class="n">thisTask</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">ia</span><span class="o">,</span> <span class="n">TimeType</span> <span class="n">executionCase</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">pTypeArray</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">usePtypeArray</span><span class="o">):</span> 
+</pre></div>
+</div>
+<p>when task is non-preemptive type. Response time will be calculated via level-i technique
+Since task is non-preemptive -&gt; once it start, it doesn’t stop. Our goal here is to calculate task’s <code class="docutils literal notranslate"><span class="pre">start</span> <span class="pre">time</span></code> .Cuz task’s <code class="docutils literal notranslate"><span class="pre">finishing</span> <span class="pre">time</span> <span class="pre">=</span> <span class="pre">start</span> <span class="pre">time</span> <span class="pre">+</span> <span class="pre">execution</span> <span class="pre">time</span></code> . We can derive response time by <code class="docutils literal notranslate"><span class="pre">finishing</span> <span class="pre">time</span> <span class="pre">-</span> <span class="pre">kPeriod</span></code></p>
+<div class="highlight-Java notranslate"><div class="highlight"><pre><span></span><span class="n">getLowerPriorityBlockingTime</span><span class="o">(</span><span class="n">Task</span> <span class="n">thisTask</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">ia</span><span class="o">,</span> <span class="n">TimeType</span> <span class="n">executionCase</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">pTypeArray</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">usePtypeArray</span><span class="o">):</span>
+</pre></div>
+</div>
+<p>time <code class="docutils literal notranslate"><span class="pre">thisTask</span></code> would be blocked by lower priority task. Mechanism here is to scan all lower priority tasks (<code class="docutils literal notranslate"><span class="pre">lpTask</span></code>) that are allocated in the same core with <code class="docutils literal notranslate"><span class="pre">thisTask</span></code>. Then check their preemptive type, <code class="docutils literal notranslate"><span class="pre">lpTask</span></code> only block<code class="docutils literal notranslate"> <span class="pre">thisTask</span></code> if they are non-preemptive or cooperative. <code class="docutils literal notranslate"><span class="pre">thisTask</span></code> only get blocked once, so we take the longest time that task could be block by <code class="docutils literal notranslate"><span class="pre">lpTask</span></code> (i.e lpTask_1 block 10ms, lpTask_2 block 20ms then return 20ms as blocking time)</p>
+<div class="highlight-Java notranslate"><div class="highlight"><pre><span></span><span class="n">getPreempCoopMixedTaskRTA</span><span class="o">(</span><span class="n">Task</span> <span class="n">thisTask</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">ia</span><span class="o">,</span> <span class="n">TimeType</span> <span class="n">executionCase</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">pTypeArray</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">usePtypeArray</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>When task is not non-preemptive type and under a mixed or cooperative environment . Response time will be calculated via level-i method. This time our calculation is not only focus on start time but also finishing time.
+Finishing time = start time + execution time + preemption by higher priority task. And after this response time = finishing time - kPeriod.</p>
+<div class="highlight-Java notranslate"><div class="highlight"><pre><span></span><span class="n">getPureExecutionTime</span><span class="o">(</span><span class="n">Task</span> <span class="n">thisTask</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">ia</span><span class="o">,</span> <span class="kd">final</span> <span class="n">TimeType</span> <span class="n">executionCase</span><span class="o">):</span>
+</pre></div>
+</div>
+<p>Label access Read + ticks/executions need + Label access Write. No blocking here.</p>
+<div class="highlight-Java notranslate"><div class="highlight"><pre><span></span><span class="n">getExecutionTime</span> <span class="o">(</span><span class="n">Task</span> <span class="n">thisTask</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">ia</span><span class="o">,</span> <span class="kd">final</span> <span class="n">TimeType</span> <span class="n">executionCase</span><span class="o">):</span>
+</pre></div>
+</div>
+<p>getPureExecutionTime + blocking. Contention, Copyengine, global blocking etc… can be added here.</p>
+<div class="highlight-Java notranslate"><div class="highlight"><pre><span></span><span class="n">getUltilizationCheck</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Task</span><span class="o">&gt;</span> <span class="n">groupTask</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">ia</span><span class="o">,</span> <span class="n">TimeType</span> <span class="n">executionCase</span><span class="o">):</span>
+</pre></div>
+</div>
+<p>check whether it is possible to shove a group of task together in one core.
+return true when core ultilization value is less than 100%.</p>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">GSOC2020</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Introduction.html">Function introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Into</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Theory.html">Theory</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../Introduction.html" title="previous chapter">Function introduction</a></li>
+      <li>Next: <a href="Theory.html" title="next chapter">Theory and equation for response time analysis in different environment</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, The Bao Bui.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/contents/Intro.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
