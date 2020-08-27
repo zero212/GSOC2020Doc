@@ -1,6 +1,6 @@
 # Function introduction
 
-Function inside my class `NPandPRTA` and its usage:
+Function inside the class `NPandPRTA` and its usage:
 
 ```Java
 setSchedubilityCheck(boolean schedubilityCheck)

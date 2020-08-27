@@ -2,6 +2,9 @@
 GSOC 2020 - Non-Preemptive / Limited preemptive in Response Time Analysis 
 =========================================================================
 
+.. figure:: /gsoc_logo.png 
+	:width: 400
+	:align: center
 
 Motivation
 ^^^^^^^^^^
@@ -24,6 +27,7 @@ Content
 
    Implementation functions <contents/Intro>
    Theory <contents/Theory>
+   Future work <contents/Futurework>
    References <contents/References>
 
 If you have any question, contact me via : the.bui003@stud.fh-dortmund.de
