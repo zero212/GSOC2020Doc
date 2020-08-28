@@ -27,6 +27,8 @@ Content
 
    Implementation functions <contents/Intro>
    Theory <contents/Theory>
+   Plan and timeline <contents/Plan>
+   Repo <contents/Repo>
    Future work <contents/Futurework>
    References <contents/References>
 
