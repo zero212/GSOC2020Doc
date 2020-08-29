@@ -1,5 +1,7 @@
 # References 
 
+My implementation couldn't been finished without these research papers and their authors. 
+
 [1]: Ignacio Sanudo, Paolo Burgio and Marko Bertogna "Schedulability and Timing Analysis of Mixed Preemptive-Cooperative Tasks on a Partitioned Multi-Core System".
 
 [2]: Emmanuel Grolleau, "Tutorial on real-time scheduling".

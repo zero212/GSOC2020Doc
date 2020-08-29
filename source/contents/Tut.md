@@ -45,16 +45,20 @@ Calculate response time of task in mixed environment.
 Drop the task, the integer mapping array, and the model (again this class is made mainly for WATERS2019 derived model, but it should work on other as well) and you get your response time.
 I also opt in an option where you can input your own preemptive type array.
 Where you can change task's preemptive type without changing it in the model.
+
 **setSchedubilityCheck**
 This function set a boolean variable where you can enable/disable schedubility check.
 Which means if you set to false. Every RTA functions will return the value without checking whether that response time bigger than task's period or not.
+
 **getResponseTimeViaLevelI**
 Calculate resposne time of task in preemptive environment via level-i busy window technique.
 Pretty vanilla/basic implementation. 
+
 **getResponseTimeViaRecurrenceRelation**
 Calculate resposne time of task in preemptive environment via recurrence relation. 
 Again very basic execution of how response time is calculated
 Should give the same result as response time level-i. 
+
 **getPureExecutionTime**
 Using the well-known semantics, where task is run as follow:  READ -> EXECUTION -> WRITE
 Calculate all of the element from each step, sum all of them and we have task's execution time.
@@ -72,6 +76,7 @@ Again I only listed important/useful function. For more info, please refer funct
 Calculate task's global blocking time ( time blocked by task from other cores) due to semaphore lock.
 If there is no semaphore, the function will calculate blocking time due to resource being read/write by other task. 
 The blocking policy is Priority Ceiling Protocol FYI
+
 **getLocalBlockingTime**
 Same with getGlobalBlockingTime, but this time we calculate blocking time due to local task (task within same core)
 
