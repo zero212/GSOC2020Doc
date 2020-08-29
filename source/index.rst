@@ -30,7 +30,7 @@ Content
    Theory <contents/Theory>
    Plan and timeline <contents/Plan>
    Contribute to the community <contents/Contribute>
-   Repo <contents/Repo>
+   Repositories <contents/Repo>
    Future work <contents/Futurework>
    References <contents/References>
 
