@@ -20,6 +20,8 @@ Fully preemptive environment
 
 * Response time analysis using recurrence relation
 
+Equations of this part comes from [4]. Check Reference for the paper/research
+
 *Equation 1:*
 :math:`R_i^+ = C_i^+ + \sum_{j:P_j \geq P_i} \left\lceil \frac {R_{i-1}^+} {T_j} \right\rceil C_j^+`
 |
@@ -36,10 +38,11 @@ Fully preemptive environment
 
 |
 
-* Response time analysis using level-i busy window
+* Response time analysis using level-i busy window, 
 
 In preemptive environment, beside recurrence relation method, there is another way to calculate task response time (RT) by calculate response time of several instance of
 task during its busy period, and pick the longest one among them. 
+Equation from this part comes from [2].
 
 *Equation 2:* Level-i active period (busy window)
 
@@ -80,6 +83,7 @@ Limitted preemptive (or cooperative) environment
 ################################################
 
 Window technique again proved to be useful in this scenario, this time we need to introduce blocking time, which is the largest execution time of lower priority runnable (since cooperative is runnable bound).
+All equation in from this part is from paper [1], check out references tab for more info.
 
 Blocking time 
 

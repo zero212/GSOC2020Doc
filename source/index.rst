@@ -28,6 +28,8 @@ Content
    Implementation functions <contents/Intro>
    Theory <contents/Theory>
    Plan and timeline <contents/Plan>
+   Contribute to the community <contents/Contribute>
+   How to use <contents/Tut>
    Repo <contents/Repo>
    Future work <contents/Futurework>
    References <contents/References>
