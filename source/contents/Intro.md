@@ -206,4 +206,3 @@ This is a generic approach on how we locate GPU task in the integer array used f
 Need to be modify if task failed when executed.
 
 Done
-=====================================================================================

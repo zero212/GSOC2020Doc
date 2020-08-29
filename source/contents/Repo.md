@@ -9,11 +9,3 @@ Click here ->  [eclipse repo](https://git.eclipse.org/c/app4mc/org.eclipse.app4m
 Click here -> [github repo](https://github.com/zero212/GSOC2020Doc) <-
 
 
-
-
-
-
-
-
-
-

@@ -1,8 +1,11 @@
-# How to use 
+# How to use
 
-First of all, you will need to pull the big repo. 
+First of all, you will need to clone the big repo from this link https://git.eclipse.org/c/app4mc/org.eclipse.app4mc.tools.git/
 
-https://git.eclipse.org/c/app4mc/org.eclipse.app4mc.tools.git/
+Here is the ssh html location if you can't find it
+![](Gitpull.PNG)
+
+You need to sign up an eclipse account to be able to clone it though.
 
 Check out the app4mc0.9.8/gsoc20npRTA. 
 This is the branch that have my implementation
