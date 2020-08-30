@@ -12,6 +12,8 @@
 * Retesting level-i and recurrence relation method in calculating response time
 * Implementing non-preemptive RTA in APP4MC
 
+The commits can be tracked via this [bug](https://bugs.eclipse.org/bugs/show_bug.cgi?id=562791) from bugzilla : 
+
 This phase is mainly for getting familiar with level-i busy window technique in RTA which contribute quite a lots in further exploration regard to RTA, at least non-preemptive RTA was completed during this phase
 ## Phase 2
 
@@ -20,6 +22,8 @@ This phase is mainly for getting familiar with level-i busy window technique in 
 * Implement cooperative RTA in APP4MC
 * Create test classes for both non-preemptive and cooperative
 * Attempt on mixed preemptive environment RTA
+
+The commits can be tracked via this [bug](https://bugs.eclipse.org/bugs/show_bug.cgi?id=562792) from bugzilla : 
 
 After this phase, the skeleton or outline of how data flow and how response time analysis in different cases is formed.
 From getting info from model and mapping array to source out what environment input task's in, and finally decide what equation/function is used to give out the best solution. 
@@ -33,6 +37,8 @@ This will remove unnecessary time for mouse clicking in order to change preempti
 * Implement blocking analysis, based on semaphore and Priority Ceiling Protocol
 * Adding blocking due to shared resources if no semaphore/critical section is available within model 
 * Create test classes, adding javaDoc, documentation
+
+The commits can be tracked via this [bug](https://bugs.eclipse.org/bugs/show_bug.cgi?id=562793) from bugzilla : 
 
 Implementation done here, tough time with all the additioning stuff but was fun and interesting.
 
