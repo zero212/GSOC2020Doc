@@ -9,8 +9,11 @@ Here is the ssh html location if you can't find it
 
 You need to sign up an eclipse account to be able to clone it though.
 
-Check out the app4mc0.9.8/gsoc20npRTA. 
-This is the branch that have my implementation
+Check out the tag gsoc20MPRTAFinal. 
+
+This is the tag that contains the GSoC2020 implementation by the time the Project is submitted. It may be merged to master soon, too.
+
+The content of this tag maybe updated after GSoC submission, I will keep this document updated if more work is done regard this method.
 
 1. Under responseTime-analyzer > plugins > src >...> gsoc_rta folder
 
